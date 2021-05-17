@@ -8,7 +8,7 @@ import {
   UserOutlined,
   MobileFilled
 } from '@ant-design/icons';
-import { connect } from 'umi';
+import { connect,history } from 'umi';
 import { Space, message } from 'antd';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { getFakeCaptcha } from '@/services/login';

@@ -7,7 +7,6 @@ export default [
         component: './User/index',
         routes: [
           {
-            name: 'login',
             path: '/user/login',
             component: './User/login',
           },
@@ -24,17 +23,17 @@ export default [
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/home',
               },
               {
-                path: '/welcome',
-                name: 'welcome',
+                path: '/home',
+                name: '首页',
                 icon: 'smile',
-                component: './Welcome',
+                component: './home',
               },
               {
                 path: '/admin',
-                name: 'admin',
+                name: '管理页',
                 icon: 'crown',
                 component: './Admin',
                 authority: ['admin'],
@@ -43,13 +42,13 @@ export default [
                     path: '/admin/sub-page',
                     name: 'sub-page',
                     icon: 'smile',
-                    component: './Welcome',
+                    component: './home',
                     authority: ['admin'],
                   },
                 ],
               },
               {
-                name: 'list.table-list',
+                name: '列表',
                 icon: 'table',
                 path: '/list',
                 component: './TableList',

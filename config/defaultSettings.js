@@ -7,8 +7,11 @@ const proSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: '后台管理',
   pwa: false,
   iconfontUrl: '',
+  menu: {
+    locale: false
+  }
 };
 export default proSettings;

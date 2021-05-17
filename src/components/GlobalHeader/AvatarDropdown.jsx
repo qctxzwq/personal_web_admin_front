@@ -3,7 +3,7 @@ import { Avatar, Menu, Spin } from 'antd';
 import React from 'react';
 import { history, connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
-import styles from './index.less';
+import './index.less';
 
 class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
@@ -26,14 +26,14 @@ class AvatarDropdown extends React.Component {
 
   render() {
     const {
-      currentUser = {
+      userInfo = {
         avatar: '',
         name: '',
       },
       menu,
     } = this.props;
     const menuHeaderDropdown = (
-      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
+      <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
         {menu && (
           <Menu.Item key="center">
             <UserOutlined />
@@ -54,15 +54,15 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+    return userInfo && userInfo.name ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
-        <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        <span className="action account">
+          <Avatar size="small" className="avatar" src={userInfo.avatar} alt="avatar" />
+          <span className="name anticon">{userInfo.name}</span>
         </span>
       </HeaderDropdown>
     ) : (
-      <span className={`${styles.action} ${styles.account}`}>
+      <span className="action account">
         <Spin
           size="small"
           style={{
@@ -76,5 +76,5 @@ class AvatarDropdown extends React.Component {
 }
 
 export default connect(({ user }) => ({
-  currentUser: user.currentUser,
+  userInfo: user.userInfo,
 }))(AvatarDropdown);

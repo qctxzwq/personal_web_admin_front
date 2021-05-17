@@ -1,6 +1,7 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+import { GetEnduranceToLocal } from './endurance';
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -52,4 +53,16 @@ const request = extend({
   // default error handling
   credentials: 'include', // Does the default request bring cookies
 });
+
+// 携带token
+request.interceptors.request.use((url, options) => {
+  const token = GetEnduranceToLocal("token")
+  const auth = { "AUTHORIZATION": token }
+  let headers = Object.assign(options.headers, auth)
+  return {
+    url,
+    options: { ...options, headers, interceptors: true },
+  };
+});
+
 export default request;

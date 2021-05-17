@@ -3,15 +3,15 @@
  *
  * @see You can view component api by: https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, { useEffect, useMemo, useRef } from 'react';
+import ProLayout from '@ant-design/pro-layout';
+import React, { useEffect } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
-// import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
-import { getMatchMenu } from '@umijs/route-utils';
-import logo from '../assets/logo.svg';
+
+import MyFooter from "@/components/Footer"
+import logo from '@/assets/logo.jpg';
+import "./index.less"
 const noMatch = (
   <Result
     status={403}
@@ -25,41 +25,11 @@ const noMatch = (
   />
 );
 
-/** Use Authorized check all menu item */
-// const menuDataRender = (menuList) =>
-//   menuList.map((item) => {
-//     const localItem = {
-//       ...item,
-//       children: item.children ? menuDataRender(item.children) : undefined,
-//     };
-//     return Authorized.check(item.authority, localItem, null);
-//   });
+// 左侧菜单显示内容（用户权限）
+const menuDataRender = (menuList) => {
+  return menuList
+}
 
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={`${new Date().getFullYear()} Produced by Ant Group Experience Technology Department`}
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
 
 const BasicLayout = (props) => {
   const {
@@ -70,7 +40,6 @@ const BasicLayout = (props) => {
       pathname: '/',
     },
   } = props;
-  const menuDataRef = useRef([]);
   useEffect(() => {
     if (dispatch) {
       dispatch({
@@ -78,7 +47,6 @@ const BasicLayout = (props) => {
       });
     }
   }, []);
-  /** Init variables */
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
@@ -87,15 +55,8 @@ const BasicLayout = (props) => {
         payload,
       });
     }
-  }; // get children authority
+  };
 
-  const authorized = useMemo(
-    () =>
-      getMatchMenu(location.pathname || '/', menuDataRef.current).pop() || {
-        authority: undefined,
-      },
-    [location.pathname],
-  );
   const { formatMessage } = useIntl();
   return (
     <ProLayout
@@ -119,9 +80,7 @@ const BasicLayout = (props) => {
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
-          breadcrumbName: formatMessage({
-            id: 'menu.home',
-          }),
+          breadcrumbName: "首页"
         },
         ...routers,
       ]}
@@ -135,24 +94,15 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => {
         if (settings.footerRender || settings.footerRender === undefined) {
-          return defaultFooterDom;
+          return <MyFooter />;
         }
-
         return null;
       }}
-      // menuDataRender={menuDataRender}
+      menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
-      postMenuData={(menuData) => {
-        menuDataRef.current = menuData || [];
-        return menuData || [];
-      }}
-      waterMarkProps={{
-        content: 'Ant Design Pro',
-        fontColor: 'rgba(24,144,255,0.15)',
-      }}
     >
       {/* <Authorized authority={authorized.authority} noMatch={noMatch}> */}
-        {children}
+      {children}
       {/* </Authorized> */}
     </ProLayout>
   );
