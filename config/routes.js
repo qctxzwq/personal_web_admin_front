@@ -54,6 +54,18 @@ export default [
                 component: './TableList',
               },
               {
+                name: 'socket内容管理',
+                icon: 'MessageOutlined',
+                path: '/SocketMag',
+                component: './SocketMag',
+              },
+              {
+                name: '用户管理',
+                icon: 'UserSwitchOutlined',
+                path: '/UserMag',
+                component: './UserMag',
+              },
+              {
                 component: './404',
               },
             ],
