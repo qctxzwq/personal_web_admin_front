@@ -5,10 +5,11 @@ import {
   ProFormSelect,
   ProFormUploadDragger,
 } from '@ant-design/pro-form';
+import { objToFormdata } from "@/utils/transform"
 
 class AddModal extends React.Component {
   render() {
-    const {visible,closeModal,actionRef} = this.props
+    const { visible, closeModal, addUser, actionRef } = this.props
     return <ModalForm
       title="新建用户"
       width="500px"
@@ -18,6 +19,8 @@ class AddModal extends React.Component {
       }}
       onFinish={async (value) => {
         console.log(value);
+        const res = addUser(objToFormdata(value))
+        console.log(res);
         return true
         // const success = await handleAdd(value);
         // if (success) {
@@ -58,6 +61,14 @@ class AddModal extends React.Component {
             required: true,
             message: "请输入确认密码"
           },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (value && getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('请确认两次密码相同!'));
+            },
+          }),
         ]} />
       <ProFormSelect
         name="status"

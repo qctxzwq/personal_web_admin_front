@@ -14,7 +14,6 @@ export default [
       },
       {
         path: '/',
-        component: '../layouts/SecurityLayout',
         routes: [
           {
             path: '/',

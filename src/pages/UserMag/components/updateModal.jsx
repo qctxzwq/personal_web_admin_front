@@ -45,15 +45,10 @@ class UpdateModal extends React.Component {
             message: "请输入用户名"
           },
         ]}
-        defaultVal={defaultVal && defaultVal.name}
+        defaultVal={defaultVal ? defaultVal.name : null}
         label="用户名"
         width="lg"
         name="name"
-      />
-      <ProFormText.Password
-        label="重置密码"
-        width="lg"
-        name="password"
       />
       <ProFormSelect
         name="status"
@@ -70,6 +65,11 @@ class UpdateModal extends React.Component {
         ]}
         placeholder="请选择用户等级"
         rules={[{ required: true, message: '请选择用户等级!' }]}
+      />
+      <ProFormText.Password
+        label="重置密码"
+        width="lg"
+        name="password"
       />
       {defaultVal ?
         <div>

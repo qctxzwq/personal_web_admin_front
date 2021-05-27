@@ -1,6 +1,7 @@
 import React from "react"
+import { connect } from "umi"
 import ProTable from '@ant-design/pro-table';
-import { Button, Image } from "antd"
+import { Button, Image, message } from "antd"
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import { PlusOutlined } from "@ant-design/icons"
 import { get_user_list } from "@/services/usermanage"
@@ -8,10 +9,14 @@ import moment from "moment"
 
 import AddModal from "./components/addModal"
 import UpdateModal from "./components/updateModal"
+import {post_add_user} from "@/services/usermanage"
 import { vaildResponse } from "@/utils/vaildMes"
 
 import "./index.less"
 
+// @connect((usermanage) => (
+
+// ))
 class UserMag extends React.Component {
   constructor(props) {
     super(props)
@@ -205,6 +210,7 @@ class UserMag extends React.Component {
       )}
       <AddModal
         visible={createModalVisible}
+        addUser={post_add_user}
         closeModal={() => { this.setState({ createModalVisible: false }) }}
         actionRef={this.actionRef} />
       <UpdateModal

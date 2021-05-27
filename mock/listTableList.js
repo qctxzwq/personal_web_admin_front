@@ -93,6 +93,7 @@ function getRule(req, res, u) {
   }
 
   const result = {
+    code: 0,
     data: dataSource,
     total: tableListDataSource.length,
     success: true,
@@ -164,6 +165,7 @@ function postRule(req, res, u, b) {
   }
 
   const result = {
+    code: 0,
     list: tableListDataSource,
     pagination: {
       total: tableListDataSource.length,
