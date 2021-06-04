@@ -4,3 +4,10 @@ export const vaildResponse = (response) => {
     }
     return false
 }
+
+export const vaildCodeResponse = (response) => {
+    if (response && response.code === 0) {
+        return true
+    }
+    return false
+}

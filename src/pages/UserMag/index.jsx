@@ -9,7 +9,7 @@ import moment from "moment"
 
 import AddModal from "./components/addModal"
 import UpdateModal from "./components/updateModal"
-import {post_add_user} from "@/services/usermanage"
+import { post_add_user } from "@/services/usermanage"
 import { vaildResponse } from "@/utils/vaildMes"
 
 import "./index.less"
@@ -21,35 +21,25 @@ class UserMag extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentRow: null,
+      currentRow: {},
       showDetail: false,
       createModalVisible: false,
       updateModalVisible: false,
-      selectedRowsState: []
+      selectedRowsState: [],
+      pagination: {
+        current: 1,
+        pageSize: 10
+      }
     }
     this.actionRef = React.createRef()
   }
   render() {
-    let { selectedRowsState, createModalVisible, updateModalVisible, currentRow } = this.state
+    let { selectedRowsState, createModalVisible, updateModalVisible, pagination, currentRow } = this.state
     const columns = [
       {
         title: "用户Id",
         dataIndex: 'id',
         tip: '用户id是唯一的',
-        render: (dom, row) => {
-          return (
-            <a
-              onClick={() => {
-                this.setState({
-                  currentRow: row,
-                  showDetail: true,
-                })
-              }}
-            >
-              {dom}
-            </a>
-          );
-        },
       },
       {
         title: "用户名",
@@ -125,8 +115,8 @@ class UserMag extends React.Component {
           <a
             onClick={() => {
               this.setState({
-                updateModalVisible: true,
-                currentRow: record
+                currentRow: record,
+                updateModalVisible: true
               })
             }}>
             修改
@@ -146,7 +136,6 @@ class UserMag extends React.Component {
             type="primary"
             key="primary"
             onClick={() => {
-              console.log("点击新建");
               this.setState({
                 createModalVisible: true
               })
@@ -155,8 +144,18 @@ class UserMag extends React.Component {
             <PlusOutlined /> 新建
           </Button>,
         ]}
+        pagination={{
+          showSizeChanger: true,
+          ...pagination
+        }}
         request={async (params, sorter, filter) => {
-          let res = await get_user_list({ ...params, sorter, filter })
+          const payload = {
+            page: params.current,
+            psize: params.pageSize,
+            sorter,
+            filter
+          }
+          let res = await get_user_list(payload)
           if (vaildResponse(res)) {
             res.data.user_info.map((item, index) => {
               item.key = index
@@ -174,6 +173,7 @@ class UserMag extends React.Component {
           },
         }}
       />
+      <div style={{ height: "50px" }}></div>
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
           extra={

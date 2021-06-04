@@ -36,7 +36,6 @@ request.interceptors.request.use((url, options) => {
 request.interceptors.response.use(async response => {
   const data = await response.clone().json();
   if (data && data.code == 401) {
-    message.error("未登录！")
     history.push("/user/login")
   }
   if (data && data.code != 0) {

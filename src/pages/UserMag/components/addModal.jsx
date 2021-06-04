@@ -3,11 +3,18 @@ import {
   ModalForm,
   ProFormText,
   ProFormSelect,
-  ProFormUploadDragger,
 } from '@ant-design/pro-form';
 import { objToFormdata } from "@/utils/transform"
+import { vaildCodeResponse } from "@/utils/vaildMes";
+import { message } from "antd";
 
 class AddModal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      file: null
+    }
+  }
   render() {
     const { visible, closeModal, addUser, actionRef } = this.props
     return <ModalForm
@@ -18,10 +25,16 @@ class AddModal extends React.Component {
         onCancel: closeModal,
       }}
       onFinish={async (value) => {
-        console.log(value);
-        const res = addUser(objToFormdata(value))
+        const res = await addUser(objToFormdata(value))
         console.log(res);
-        return true
+        if (vaildCodeResponse(res)) {
+          message.success("创建成功！")
+          if (actionRef.current) {
+            actionRef.current.reload();
+          }
+          closeModal()
+          return true
+        }
         // const success = await handleAdd(value);
         // if (success) {
         //   handleModalVisible(false);
@@ -86,12 +99,6 @@ class AddModal extends React.Component {
         placeholder="请选择用户等级"
         rules={[{ required: true, message: '请选择用户等级!' }]}
       />
-      <ProFormUploadDragger
-        label="用户头像"
-        name="avatar"
-        width="lg"
-        description={null}
-        action="upload.do" />
     </ModalForm>
   }
 }

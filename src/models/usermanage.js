@@ -3,6 +3,10 @@ const UserManageModel = {
   state: {
   },
   effects: {
+    *addUser({ payload, callback }, { call, put }) {
+      console.log(payload);
+
+    }
   },
   reducers: {
   }
