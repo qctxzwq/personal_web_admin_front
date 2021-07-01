@@ -14,9 +14,9 @@ import { vaildResponse } from "@/utils/vaildMes"
 
 import "./index.less"
 
-// @connect((usermanage) => (
-
-// ))
+@connect(({ user }) => ({
+  userInfo: user.userInfo,
+}))
 class UserMag extends React.Component {
   constructor(props) {
     super(props)
@@ -111,8 +111,8 @@ class UserMag extends React.Component {
       {
         title: "操作",
         hideInSearch: true,
-        render: (_, record) =>
-          <a
+        render: (_, record) => {
+          return <a
             onClick={() => {
               this.setState({
                 currentRow: record,
@@ -121,6 +121,7 @@ class UserMag extends React.Component {
             }}>
             修改
           </a>
+        }
       },
     ];
     return <PageContainer>
